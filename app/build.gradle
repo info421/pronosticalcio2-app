@@ -1,0 +1,53 @@
+plugins {
+    id 'com.android.application'
+}
+
+def runNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger()
+def updateRepo = System.getenv("GITHUB_REPOSITORY") ?: ""
+
+android {
+    namespace 'it.paddeu.pronosticalcio'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'it.paddeu.pronosticalcio'
+        minSdk 26
+        targetSdk 34
+        versionCode runNumber
+        versionName "1.0.${runNumber}"
+        buildConfigField "String", "UPDATE_REPO", "\"${updateRepo}\""
+        buildConfigField "String", "SITO", "\"https://pronosticalcio2.patient-tree-4d11.workers.dev/\""
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        shared {
+            storeFile file('pronosticalcio.keystore')
+            storePassword 'pronosticalcio'
+            keyAlias 'pronosticalcio'
+            keyPassword 'pronosticalcio'
+            storeType 'pkcs12'
+        }
+    }
+
+    buildTypes {
+        debug { signingConfig signingConfigs.shared }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.shared
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
