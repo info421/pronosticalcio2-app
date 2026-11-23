@@ -84,6 +84,7 @@ public class MainActivity extends Activity {
             @Override public void onPageFinished(WebView v, String url) {
                 CookieManager.getInstance().flush();
                 v.evaluateJavascript(JS_DOWNLOAD, null);
+                v.evaluateJavascript(JS_SOLO_PARTITE, null);
             }
             @Override public void onReceivedHttpAuthRequest(WebView v, HttpAuthHandler h, String host, String realm) {
                 SharedPreferences p = getSharedPreferences(PREFS, MODE_PRIVATE);
@@ -112,6 +113,14 @@ public class MainActivity extends Activity {
         "fetch(a.href).then(function(r){return r.text()}).then(function(t){PronoApp.condividi(a.getAttribute('download')||'pronosticalcio.txt',t)});return;}" +
         "return c.apply(this,arguments)};" +
         "if(navigator.clipboard){navigator.clipboard.writeText=function(t){PronoApp.copia(t);return Promise.resolve();};}" +
+        "})();";
+
+    // nell'app serve solo la schermata Partite (e la scheda della singola partita): via il menu, e Osservate, Regole, Dati tornano a Partite
+    private static final String JS_SOLO_PARTITE =
+        "(function(){if(window.__sp)return;window.__sp=1;" +
+        "var st=document.createElement('style');st.textContent='nav.menu{display:none!important}';document.head.appendChild(st);" +
+        "function vai(){var h=location.hash||'';if(/^#\\/(osservate|regole|dati)/.test(h))location.hash='#/';}" +
+        "window.addEventListener('hashchange',vai);vai();" +
         "})();";
 
     private class Ponte {

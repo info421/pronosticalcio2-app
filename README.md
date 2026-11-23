@@ -4,6 +4,7 @@ L'app apre il sito di Pronosticalcio 2 (worker Cloudflare) a schermo intero sul 
 
 - La password del sito si chiede una volta sola e resta salvata nell'app.
 - "Copia INSTA" apre la condivisione di Android (WhatsApp, Note, Drive…).
+- Mostra solo la schermata Partite (e la scheda della singola partita): Osservate, Regole e Dati restano sul sito da computer.
 - I link esterni si aprono nel browser.
 - Tornando nell'app dopo più di 10 minuti la pagina si ricarica.
 - All'avvio controlla se su GitHub c'è una versione nuova e propone l'aggiornamento.
